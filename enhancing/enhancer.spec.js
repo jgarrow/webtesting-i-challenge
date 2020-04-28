@@ -7,7 +7,7 @@ describe('enhancer', () => {
             const item = {
                 name: 'hammer',
                 durability: 60,
-                enhancement: 12,
+                enhancement: 0,
             };
 
             const actualOutcome = enhancer.get(item);
@@ -16,35 +16,59 @@ describe('enhancer', () => {
         });
         it('throws an error if not given an item object with correct structure', () => {
             expect(() => {
-                enhancer.fail(5);
-            }).toThrow(undefined);
+                enhancer.get(5);
+            }).toThrow();
             expect(() => {
-                enhancer.fail('knife');
-            }).toThrow(undefined);
+                enhancer.get('knife');
+            }).toThrow();
             expect(() => {
-                enhancer.fail([1, 5, 'sword']);
-            }).toThrow(undefined);
+                enhancer.get([1, 5, 'sword']);
+            }).toThrow();
             expect(() => {
-                enhancer.fail({ name: 'bow', durability: 45 });
-            }).toThrow(undefined);
+                enhancer.get({ name: 'bow', durability: 45 });
+            }).toThrow();
             expect(() => {
-                enhancer.fail({ enhancement: 8, durability: 52 });
-            }).toThrow(undefined);
+                enhancer.get({ enhancement: 8, durability: 52 });
+            }).toThrow();
             expect(() => {
-                enhancer.fail({ enhancement: 8, durability: -1 });
-            }).toThrow(undefined);
+                enhancer.get({ enhancement: 8, durability: -1 });
+            }).toThrow();
             expect(() => {
-                enhancer.fail({ enhancement: 8, durability: 101 });
-            }).toThrow(undefined);
+                enhancer.get({ enhancement: 8, durability: 101 });
+            }).toThrow();
             expect(() => {
-                enhancer.fail({ enhancement: 16, name: 'spear' });
-            }).toThrow(undefined);
+                enhancer.get({ enhancement: 16, name: 'spear' });
+            }).toThrow();
             expect(() => {
-                enhancer.fail({ enhancement: -1, name: 'spear' });
-            }).toThrow(undefined);
+                enhancer.get({ enhancement: -1, name: 'spear' });
+            }).toThrow();
             expect(() => {
-                enhancer.fail({ enhancement: 21, name: 'spear' });
-            }).toThrow(undefined);
+                enhancer.get({ enhancement: 21, name: 'spear' });
+            }).toThrow();
+        });
+
+        it('name does not change if enhancement is 0', () => {
+            const item = {
+                name: 'hammer',
+                durability: 72,
+                enhancement: 0,
+            };
+
+            const actualOutcome = enhancer.get(item);
+
+            expect(actualOutcome.name).toBe('hammer');
+        });
+
+        it('name updates to `[+NUM] NAME` if enhancement is greater than 0', () => {
+            const item = {
+                name: 'hammer',
+                durability: 72,
+                enhancement: 10,
+            };
+
+            const actualOutcome = enhancer.get(item);
+
+            expect(actualOutcome.name).toBe('[+10] hammer');
         });
     });
     describe('repair', () => {
@@ -89,34 +113,55 @@ describe('enhancer', () => {
         it('throws an error if not given an item object with correct structure', () => {
             expect(() => {
                 enhancer.fail(5);
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail('knife');
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail([1, 5, 'sword']);
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ name: 'bow', durability: 45 });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: 8, durability: 52 });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: 8, durability: -1 });
-            }).toThrow(undefined);
+            }).toThrow();
+            expect(() => {
+                enhancer.fail({
+                    name: 'slingshot',
+                    enhancement: 8,
+                    durability: -1,
+                });
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: 8, durability: 101 });
-            }).toThrow(undefined);
+            }).toThrow();
+            expect(() => {
+                enhancer.fail({
+                    name: 'slingshot',
+                    enhancement: 8,
+                    durability: 101,
+                });
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: 16, name: 'spear' });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: -1, name: 'spear' });
-            }).toThrow(undefined);
+            }).toThrow();
+            expect(() => {
+                enhancer.fail({
+                    durability: 34,
+                    enhancement: -1,
+                    name: 'spear',
+                });
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: 21, name: 'spear' });
-            }).toThrow(undefined);
+            }).toThrow();
         });
 
         it('item durability is a positive number', () => {
@@ -278,34 +323,34 @@ describe('enhancer', () => {
         it('throws an error if not given an item object with correct structure', () => {
             expect(() => {
                 enhancer.fail(5);
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail('knife');
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail([1, 5, 'sword']);
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ name: 'bow', durability: 45 });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: 8, durability: 52 });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: 8, durability: -1 });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: 8, durability: 101 });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: 16, name: 'spear' });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: -1, name: 'spear' });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: 21, name: 'spear' });
-            }).toThrow(undefined);
+            }).toThrow();
         });
     });
 
@@ -313,34 +358,34 @@ describe('enhancer', () => {
         it('throws an error if not given an item object with correct structure', () => {
             expect(() => {
                 enhancer.fail(5);
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail('knife');
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail([1, 5, 'sword']);
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ name: 'bow', durability: 45 });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: 8, durability: 52 });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: 8, durability: -1 });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: 8, durability: 101 });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: 16, name: 'spear' });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: -1, name: 'spear' });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.fail({ enhancement: 21, name: 'spear' });
-            }).toThrow(undefined);
+            }).toThrow();
         });
 
         it('returns a new item object', () => {
@@ -448,22 +493,22 @@ describe('enhancer', () => {
         it('throws an error if not given an item object with correct structure', () => {
             expect(() => {
                 enhancer.repair(5);
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.repair('knife');
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.repair([1, 5, 'sword']);
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.repair({ name: 'bow', durability: 45 });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.repair({ enhancement: 8, durability: 52 });
-            }).toThrow(undefined);
+            }).toThrow();
             expect(() => {
                 enhancer.repair({ enhancement: 16, name: 'spear' });
-            }).toThrow(undefined);
+            }).toThrow();
         });
     });
 });

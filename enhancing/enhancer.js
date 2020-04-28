@@ -7,7 +7,8 @@ module.exports = {
 
 // checks if item has correct type and structure
 function checkItem(item) {
-    if (item.name && item.durability && item.enhancement) {
+    // check if item has the appropriate keys
+    if ('name' in item && 'durability' in item && 'enhancement' in item) {
         if (
             item.durability >= 0 &&
             item.durability <= 100 &&
@@ -67,7 +68,13 @@ function repair(item) {
 
 function get(item) {
     if (checkItem(item)) {
-        return { ...item };
+        if (item.enhancement === 0) {
+            return { ...item };
+        } else if (item.enhancement > 0) {
+            const newName = `[+${item.enhancement}] ${item.name}`;
+
+            return { ...item, name: newName };
+        }
     }
 
     return;
