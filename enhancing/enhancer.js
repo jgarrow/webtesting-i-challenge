@@ -17,10 +17,14 @@ function checkItem(item) {
         ) {
             return true;
         } else {
-            throw 'durability or enhancement are not within correct range';
+            throw new Error(
+                'durability or enhancement are not within correct range'
+            );
         }
     } else {
-        throw 'item must be an object with name, durability, and enhancement';
+        throw new Error(
+            'item must be an object with name, durability, and enhancement'
+        );
     }
 }
 
@@ -43,9 +47,17 @@ function fail(item) {
         const newItem = { ...item };
 
         if (newItem.enhancement < 15) {
-            newItem.durability -= 5;
+            if (newItem.durability > 5) {
+                newItem.durability -= 5;
+            } else {
+                newItem.durability = 0;
+            }
         } else if (newItem.enhancement >= 15) {
-            newItem.durability -= 10;
+            if (newItem.durability > 10) {
+                newItem.durability -= 10;
+            } else {
+                newItem.durability = 0;
+            }
 
             if (newItem.enhancement > 16) {
                 newItem.enhancement -= 1;

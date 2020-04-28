@@ -461,9 +461,17 @@ describe('enhancer', () => {
                 enhancement: 12,
             };
 
+            const secondItem = {
+                name: 'hammer',
+                durability: 4,
+                enhancement: 12,
+            };
+
             const actualOutcome = enhancer.fail(item);
+            const secondActual = enhancer.fail(secondItem);
 
             expect(actualOutcome.durability).toBe(55);
+            expect(secondActual.durability).toBe(0);
         });
 
         it('decrease item durability by 10 if enhancement was 15 or higher', () => {
@@ -473,9 +481,17 @@ describe('enhancer', () => {
                 enhancement: 15,
             };
 
+            const secondItem = {
+                name: 'hammer',
+                durability: 9,
+                enhancement: 17,
+            };
+
             const actualOutcome = enhancer.fail(item);
+            const secondActual = enhancer.fail(secondItem);
 
             expect(actualOutcome.durability).toBe(50);
+            expect(secondActual.durability).toBe(0);
         });
 
         it('decrease item enhancement by 1 if it was greater than 16', () => {
